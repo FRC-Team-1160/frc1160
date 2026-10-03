@@ -8,9 +8,9 @@ export default async function Page() {
         <div id="cards" className="relative text-black w-full flex flex-1 flex-col opacity-100 bg-white/85">
             <div className="py-19 px-10 md:px-[10vw] w-full">
                 <div className="flex flex-row flex-wrap">
-                    <div className="flex flex-col items-center space-y-7 w-full">
+                    <div className="flex flex-col items-center space-y-7">
                         <h1 className="text-6xl font-light flex flex-col space-y-1">
-                            Donate
+                            Contact Us (wip)
                         </h1>
                         <div className="flex flex-col space-y-10 md:space-y-0 md:flex-row md:space-x-10">
                             {donate_donate && 

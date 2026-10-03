@@ -5,13 +5,107 @@ import { revalidatePath } from 'next/cache';
 const sql = postgres(process.env.POSTGRES_URL!, { ssl: 'require' });
 export { sql };
 
+export async function setCompSet(day: string, set: any) {
+    try {
+        await sql`UPDATE compschedule SET set = ${set} WHERE day = ${day}`;
+    } catch (error) {
+        console.error('Database Error:', error);
+        throw new Error('Failed to update competition set.');
+    }
+}
+
+export async function clearCompSet() {
+    try {
+        await sql`TRUNCATE TABLE compschedule`;
+    } catch (error) {
+        console.error('Database Error:', error);
+        throw new Error('Failed to clear competition sets.');
+    }
+}
+
+export async function createCompSet(day: string, set: any) {
+    try {
+        await sql`INSERT INTO compschedule (day, set) VALUES (${day}, ${set})`;
+    } catch (error) {
+        console.error('Database Error:', error);
+        throw new Error('Failed to update competition set.');
+    }
+}
+
+export async function getCompSets() {
+    try {
+        const sets = await sql`SELECT * FROM compschedule ORDER BY day ASC`;
+        return sets;
+    } catch (error) {
+        console.error('Database Error:', error);
+        throw new Error('Failed to fetch competition sets.');
+    }
+}
+
+export async function getDiscordUsers() {
+    try {
+        const users = await sql`SELECT discord_id, first_name, last_name, class_of, email, rsvp FROM discord_users ORDER BY first_name ASC`;
+        return users;
+    } catch (error) {
+        console.error('Database Error:', error);
+        throw new Error('Failed to fetch Discord users.');
+    }
+}
+
+export async function deleteDiscordUser(id: string) {
+    try {
+        await sql`DELETE FROM discord_users WHERE discord_id = ${id}`;
+    } catch (error) {
+        console.error('Database Error:', error);
+        throw new Error('Failed to delete Discord user.');
+    }
+}
+
+export async function createDiscordUser(id: string, firstName: string, lastName: string, classOf: string, email: string) {
+    try {
+        await sql`INSERT INTO discord_users (discord_id, first_name, last_name, class_of, email) VALUES (${id}, ${firstName}, ${lastName}, ${classOf}, ${email})`;
+    } catch (error) {
+        console.error('Database Error:', error);
+        throw new Error('Failed to create Discord user.');
+    }
+}
+
+export async function editDiscordUser(id: string, firstName: string, lastName: string, classOf: string, email: string) {
+    try {
+        await sql`UPDATE discord_users SET first_name=${firstName}, last_name=${lastName}, class_of=${classOf}, email=${email} WHERE discord_id=${id}`;
+    } catch (error) {
+        console.error('Database Error:', error);
+        throw new Error('Failed to edit Discord user.');
+    }
+}
+
+export async function editDiscordUserRSVP(id: string, date: string, rsvp: boolean) {
+    try {
+        const user = await sql`SELECT rsvp FROM discord_users WHERE discord_id=${id}`;
+        user[0].rsvp[date] = rsvp;
+        await sql`UPDATE discord_users SET rsvp=${user[0].rsvp} WHERE discord_id=${id}`;
+    } catch (error) {
+        console.error('Database Error:', error);
+        throw new Error('Failed to edit Discord user RSVP.');
+    }
+}
+
+export async function setAllDiscordRSVP(rsvp: any) {
+    try {
+        await sql`UPDATE discord_users SET rsvp=${rsvp}`;
+    } catch (error) {
+        console.error('Database Error:', error);
+        throw new Error('Failed to set all Discord user RSVPs.');
+    }
+}
+
 export async function getResources() {
   try {
     const data = await sql`SELECT * FROM resources`;
     return data;
   } catch (error) {
     console.error('Database Error:', error);
-    throw new Error('Failed to fetch sponsors.');
+    throw new Error('Failed to fetch resources.');
   }
 }
 
@@ -45,7 +139,6 @@ export async function getPublicPhoto(key: string) {
 
 export async function editPublicPhoto(key: string, value: string) {
     try {
-        console.log(key, value);
         await sql`UPDATE photos SET url=${value} WHERE key=${key}`
     } catch (error) {
         console.error('Database Error:', error);
@@ -116,7 +209,6 @@ export async function deleteSponsorFR(name: string) {
 
 export async function getUser(email: string) {
   try {
-    // If using a tagged-template SQL helper that accepts parameters inline:
     const result: any[] = await sql`SELECT * FROM users WHERE email = ${email} LIMIT 1;`;
 
     if (result[0]) {
@@ -130,7 +222,6 @@ export async function getUser(email: string) {
 
 export async function getUserById(id: string) {
   try {
-    // If using a tagged-template SQL helper that accepts parameters inline:
     const result: any[] = await sql`SELECT name, image, role FROM users WHERE id = ${id} LIMIT 1;`;
 
     if (result[0]) {
@@ -144,7 +235,6 @@ export async function getUserById(id: string) {
 
 export async function getUserNameById(id: string) {
   try {
-    // If using a tagged-template SQL helper that accepts parameters inline:
     const result: any[] = await sql`SELECT name FROM users WHERE id = ${id} LIMIT 1;`;
 
     if (result[0]) {
@@ -158,13 +248,12 @@ export async function getUserNameById(id: string) {
 
 export async function getUsers() {
   try {
-    // If using a tagged-template SQL helper that accepts parameters inline:
     const result: any[] = await sql`SELECT * FROM users;`;
 
     return result
   } catch (error) {
     console.error('Database Error:', error);
-    throw new Error('Failed to fetch user.');
+    throw new Error('Failed to fetch users.');
   }
 }
 
@@ -179,12 +268,12 @@ export async function removeUser(image: string, name: string, email: string) {
 
 export async function createInvite(email: string) {
     try {
-        await sql`INSERT INTO invites VALUES (${email})`;
+        await sql`INSERT INTO invites (email) VALUES (${email})`;
         const result: any[] = await sql`SELECT * FROM invites WHERE email = ${email} LIMIT 1;`;
         return result
     } catch (error) {
         console.error('Database Error:', error);
-        throw new Error('Failed to fetch user.');
+        throw new Error('Failed to create invite.');
     }
 }
 
@@ -207,7 +296,7 @@ export async function checkInvites(email: string) {
         } else { return false }
     } catch (error) {
         console.error('Database Error:', error);
-        throw new Error('Failed to fetch user.');
+        throw new Error('Failed to check invite.');
     }
 }
 
@@ -216,7 +305,7 @@ export async function createEngineering(name: string, position: string, grade: s
       await sql`INSERT INTO engineering (name, position, grade, years, image) VALUES (${name}, ${position}, ${grade}, ${years}, ${image})`;
   } catch (error) {
     console.error('Database Error:', error);
-    throw new Error('Failed to add sponsor.');
+    throw new Error('Failed to add engineering member.');
   }
 }
 
@@ -226,7 +315,7 @@ export async function getEngineering() {
     return data;
   } catch (error) {
     console.error('Database Error:', error);
-    throw new Error('Failed to fetch sponsors.');
+    throw new Error('Failed to fetch engineering members.');
   }
 }
 
@@ -235,7 +324,7 @@ export async function editEngineering(sort:string, name: string, position: strin
         await sql`UPDATE engineering SET name=${name}, position=${position}, grade=${grade}, years=${years} WHERE sort=${sort}`;
     } catch (error) {
         console.error('Database Error:', error);
-        throw new Error('Failed to remove user.');
+        throw new Error('Failed to edit engineering member.');
     }
 }
 
@@ -244,7 +333,7 @@ export async function uploadImageEngineering(sort:string, image:any) {
         await sql`UPDATE engineering SET image=${image} WHERE sort=${sort}`;        
     } catch (error) {
         console.error('Database Error:', error);
-        throw new Error('Failed to upload Image.');
+        throw new Error('Failed to upload image.');
     }
 }
 
@@ -253,7 +342,7 @@ export async function removeEngineering(name: string, position: string, grade: s
         await sql`DELETE FROM engineering WHERE name = ${name} AND position = ${position} AND grade = ${grade} AND years = ${years};`;
     } catch (error) {
         console.error('Database Error:', error);
-        throw new Error('Failed to remove user.');
+        throw new Error('Failed to remove engineering member.');
     }
 }
 
@@ -262,7 +351,7 @@ export async function createBusiness(name: string, position: string, grade: stri
       await sql`INSERT INTO business (name, position, grade, years, image) VALUES (${name}, ${position}, ${grade}, ${years}, ${image})`;
   } catch (error) {
     console.error('Database Error:', error);
-    throw new Error('Failed to add sponsor.');
+    throw new Error('Failed to add business member.');
   }
 }
 
@@ -272,7 +361,7 @@ export async function getBusiness() {
     return data;
   } catch (error) {
     console.error('Database Error:', error);
-    throw new Error('Failed to fetch sponsors.');
+    throw new Error('Failed to fetch business members.');
   }
 }
 
@@ -281,7 +370,7 @@ export async function editBusiness(sort:string, name: string, position: string, 
         await sql`UPDATE business SET name=${name}, position=${position}, grade=${grade}, years=${years} WHERE sort=${sort}`;
     } catch (error) {
         console.error('Database Error:', error);
-        throw new Error('Failed to remove user.');
+        throw new Error('Failed to edit business member.');
     }
 }
 
@@ -290,7 +379,7 @@ export async function uploadImageBusiness(sort:string, image:any) {
         await sql`UPDATE business SET image=${image} WHERE sort=${sort}`;        
     } catch (error) {
         console.error('Database Error:', error);
-        throw new Error('Failed to remove user.');
+        throw new Error('Failed to upload image.');
     }
 }
 
@@ -299,7 +388,7 @@ export async function removeBusiness(name: string, position: string, grade: stri
         await sql`DELETE FROM business WHERE name = ${name} AND position = ${position} AND grade = ${grade} AND years = ${years};`;
     } catch (error) {
         console.error('Database Error:', error);
-        throw new Error('Failed to remove user.');
+        throw new Error('Failed to remove business member.');
     }
 }
 
@@ -313,7 +402,7 @@ export async function createMentors(name: string, position: string, desc: string
       
   } catch (error) {
     console.error('Database Error:', error);
-    throw new Error('Failed to add sponsor.');
+    throw new Error('Failed to add mentor.');
   }
 }
 
@@ -323,7 +412,7 @@ export async function getMentors() {
     return data;
   } catch (error) {
     console.error('Database Error:', error);
-    throw new Error('Failed to fetch sponsors.');
+    throw new Error('Failed to fetch mentors.');
   }
 }
 
@@ -337,7 +426,7 @@ export async function editMentors(sort:string, name: string, position: string, d
         
     } catch (error) {
         console.error('Database Error:', error);
-        throw new Error('Failed to remove user.');
+        throw new Error('Failed to edit mentor.');
     }
 }
 
@@ -346,7 +435,7 @@ export async function uploadImageMentors(sort:string, image:any) {
         await sql`UPDATE mentors SET image=${image} WHERE sort=${sort}`;        
     } catch (error) {
         console.error('Database Error:', error);
-        throw new Error('Failed to remove user.');
+        throw new Error('Failed to upload image.');
     }
 }
 
@@ -359,7 +448,7 @@ export async function removeMentors(name: string, position: string, desc: string
         }
     } catch (error) {
         console.error('Database Error:', error);
-        throw new Error('Failed to remove user.');
+        throw new Error('Failed to remove mentor.');
     }
 }
 
@@ -389,7 +478,7 @@ export async function getRobot(robot: string) {
         return data?.[0] ?? null;
     } catch (error) {
         console.error('Database Error:', error);
-        throw new Error('Failed to get robots.');
+        throw new Error('Failed to get robot.');
     }
 }
 
@@ -412,7 +501,7 @@ export async function addRobot(name: string, seasonName: string) {
         return slug;
     } catch (error) {
         console.error('Database Error:', error);
-        throw new Error('Failed to get robots.');
+        throw new Error('Failed to add robot.');
     }
 }
 
@@ -421,14 +510,17 @@ export async function updateRobot(slug: string, name: string, desc: string, seas
         await sql`UPDATE robots SET name=${name}, description=${desc}, seasonname=${seasonName} WHERE slug=${slug}`;   
     } catch (error) {
         console.error('Database Error:', error);
-        throw new Error('Failed to get robots.');
+        throw new Error('Failed to update robot.');
     }
 }
 
 export async function updateThumbnailRobots(slug:string, url:string) {
     try {
         const data = await sql`SELECT photos FROM robots WHERE slug=${slug}`;
-        let photos = data[0].photos;
+        if (!data[0]) {
+            throw new Error('Robot not found.');
+        }
+        const photos = data[0].photos;
         photos.thumbnail = url;
         await sql`UPDATE robots SET photos=${photos} WHERE slug=${slug}`;       
         await revalidatePath(`/admin/robots/${slug}`);
@@ -442,7 +534,10 @@ export async function updateThumbnailRobots(slug:string, url:string) {
 export async function addCompetitionRobots(slug:string, key:string) {
     try {
         const data = await sql`SELECT competitions FROM robots WHERE slug=${slug}`;
-        let competitions = data[0].competitions || [];
+        if (!data[0]) {
+            throw new Error('Robot not found.');
+        }
+        const competitions = data[0].competitions || [];
         if (competitions.includes(key)) {
             throw new Error('Competition already exists for this robot.');
         }
@@ -459,6 +554,9 @@ export async function addCompetitionRobots(slug:string, key:string) {
 export async function deleteCompetitionRobots(slug:string, key:string) {
     try {
         const data = await sql`SELECT competitions FROM robots WHERE slug=${slug}`;
+        if (!data[0]) {
+            throw new Error('Robot not found.');
+        }
         let competitions = data[0].competitions;
         if (!competitions.includes(key)) {
             throw new Error('Competition does not exist for this robot.');
@@ -476,7 +574,10 @@ export async function deleteCompetitionRobots(slug:string, key:string) {
 export async function addResourceRobots(slug: string, url: string, text: string) {
     try {        
         const data = await sql`SELECT resources FROM robots WHERE slug=${slug}`;
-        let resources = data[0].resources || {};
+        if (!data[0]) {
+            throw new Error('Robot not found.');
+        }
+        const resources = data[0].resources || {};
         if (Object.values(resources || {}).includes(url)) {
             throw new Error('Resource with this URL already exists for this robot.');
         }
@@ -493,8 +594,15 @@ export async function addResourceRobots(slug: string, url: string, text: string)
 export async function deleteResourceRobots(slug: string, url: string) {
     try {
         const data = await sql`SELECT resources FROM robots WHERE slug=${slug}`;
-        let resources = data[0].resources;
-        delete resources[Object.keys(resources).find(key => resources[key] === url)!];
+        if (!data[0]) {
+            throw new Error('Robot not found.');
+        }
+        const resources = data[0].resources || {};
+        const key = Object.keys(resources).find(key => resources[key] === url);
+        if (!key) {
+            throw new Error('Resource with this URL does not exist for this robot.');
+        }
+        delete resources[key];
         await sql`UPDATE robots SET resources=${resources} WHERE slug=${slug}`;       
         await revalidatePath(`/admin/robots/${slug}`);
         await revalidatePath(`/robots/${slug}`);

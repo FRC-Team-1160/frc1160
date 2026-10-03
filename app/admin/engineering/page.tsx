@@ -145,7 +145,7 @@ export default async function Page() {
           </div>
         </div>
 
-        {/* Sponsors List */}
+        {/* Cab List */}
         <div className="py-10 mx-2 md:mx-20 flex justify-center items-center bg-gray-300 rounded-lg">
           {cabinet.length === 0 ? (
             <p className="text-center">No Engineering Cab. Members yet</p>

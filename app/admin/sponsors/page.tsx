@@ -113,14 +113,14 @@ export default async function Page() {
               className="flex flex-col md:flex-row gap-4 items-center"
             >
               <input
-                placeholder="Sponsor Name"
+                placeholder="____ Family"
                 name="sponsor"
                 className="border-2 border-white p-2 rounded-lg"
                 required
                 autoFocus
               />
               <input
-                placeholder="Amount"
+                placeholder="Amount (for ordering)"
                 name="amount"
                 type="number"
                 className="border-2 border-white p-2 rounded-lg"

@@ -19,26 +19,25 @@ export default async function Page() {
                 </div>
                 {robots.map(robot => (
                     <div key={robot.slug}>
-                    <hr className="border-2 border-gray-400 mx-25 rounded-xl" />
-                    <div className={clsx("py-19 px-10 md:px-45 w-full flex flex-col gap-5", {"md:flex-row": robot.sort % 2 === 0, "md:flex-row-reverse": robot.sort % 2 === 1})}>
-                        <div className="basis-1/2 flex flex-col space-y-7 justify-between">
-                            <div className="flex flex-col items-center space-y-5 px-8 text-center">
-                                <span className="text-6xl font-light flex flex-col space-y-2">
-                                    {robot.name}
-                                    <span className="text-4xl font-normal">
-                                        {robot.seasonname || robot.season}
+                        <hr className="border-2 border-gray-400 mx-25 rounded-xl" />
+                        <div className="py-19 px-10 md:px-45 w-full flex flex-col gap-5 md:flex-row justify-center items-center">
+                            <div className="flex flex-col space-y-7 justify-between">
+                                <div className="flex flex-col items-center space-y-5 px-8 text-center">
+                                    <span className="text-6xl font-light flex flex-col space-y-2">
+                                        {robot.name}
+                                        <span className="text-4xl font-normal">
+                                            {robot.seasonname || robot.season}
+                                        </span>
                                     </span>
-                                </span>
-                                <span className="flex justify-center">
-                                    <Image src={robot.photos.thumbnail} width={635} height={508} alt={robot.name} />
+                                    <span className="flex justify-center">
+                                        <Image src={robot.photos.thumbnail} width={635} height={508} alt={robot.name} />
+                                    </span>
+                                </div>
+                                <span className="flex justify-center items-center">
+                                    <Link href={`/robots/${robot.slug}`} className="p-3 border-5 border-blue-500 transition-colors ease-in-out duration-300 font-bold text-2xl text-blue-500 hover:border-blue-400 hover:text-blue-400">More Details</Link>
                                 </span>
                             </div>
-                            <span className="flex justify-center items-center">
-                                <Link href={`/robots/${robot.slug}`} className="p-3 border-5 border-blue-500 transition-colors ease-in-out duration-300 font-bold text-2xl text-blue-500 hover:border-blue-400 hover:text-blue-400">More Details</Link>
-                            </span>
                         </div>
-                        <div className="basis-1/2 flex justify-center items-center text-center"><div>secondary description</div></div>
-                    </div>
                     </div>
                 ))}
             </div>

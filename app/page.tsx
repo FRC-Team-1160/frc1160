@@ -59,10 +59,10 @@ export default async function Page() {
                         </span>
                     </span>
                     <span className="text-xl font-light">
-                        <b>FIRST stands for For Inspiration and Recognition of Science and Technology.</b> Accomplished inventor Dean Kamen founded FIRST® in 1989 to inspire appreciation of science and technology in young people. FIRST® inspires people young and old to learn through robotics.
+                        <b>FIRST</b> stands for <b>For Inspiration and Recognition of Science and Technology.</b> Accomplished inventor Dean Kamen founded FIRST® in 1989 to inspire appreciation of science and technology in young people. FIRST® inspires people young and old to learn through robotics.
                         <br />
-                        <span className="relative top-1">
-                            <b>FRC</b>, the league that Titanium Robotics competes in, is the High School level robotics league and stands for <b>FIRST Robotics Competition</b>.
+                        <span>
+                            <b>FRC</b>, the league that Titanium Robotics competes in, is the High School level (9-12) robotics league and stands for <b>FIRST Robotics Competition</b>.
                         </span>
                         <br />
                         <span className="relative top-3">
