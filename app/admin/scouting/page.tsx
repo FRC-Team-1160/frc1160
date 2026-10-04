@@ -5,15 +5,15 @@ import Row from './row';
 import RSVPRow from './rsvprow';
 import SetRow from './setrow';
 
+export async function reloadList() {
+  'use server';
+  revalidatePath('/admin/discord');
+}
+
 export default async function Page() {
   const users = await getDiscordUsers();
 
   const compsets = await getCompSets();
-
-  async function reloadList() {
-    'use server';
-    revalidatePath('/admin/discord');
-  }
 
   async function createUser(formData: FormData) {
     'use server';
@@ -100,11 +100,11 @@ export default async function Page() {
     // Source - https://stackoverflow.com/a/50398144
     // Posted by enesn, modified by community. See post 'Timeline' for change history
     // Retrieved 2026-08-04, License - CC BY-SA 4.0
-    const getDaysArray = function(s,e) {const a=[];for(const d=new Date(s);d<=new Date(e);d.setDate(d.getDate()+1)){ a.push(new Date(d).toISOString().split('T')[0]);}return a;};
+    const getDaysArray = function(s: string,e: string) {const a=[];for(const d=new Date(s);d<=new Date(e);d.setDate(d.getDate()+1)){ a.push(new Date(d).toISOString().split('T')[0]);}return a;};
 
     const days = getDaysArray(eventdata.start_date, eventdata.end_date);
 
-    const defaultRSVP = {compcode: compcode};
+    const defaultRSVP: Record<string, string | boolean> = {compcode: compcode};
 
     for (const day of days) {
         defaultRSVP[day] = true;

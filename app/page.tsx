@@ -75,8 +75,8 @@ export default async function Page() {
                     </span>
                 </div>
             </div>
-            <hr className="border-2 border-gray-400 mx-25 rounded-xl" />
-            <div className="px-10 md:px-[10vw] w-full">
+            <hr className="border-2 border-gray-400 mx-25 rounded-xl"/>
+            <div className="px-10 md:px-[10vw] w-full" id="sponsors">
                 <div className="flex flex-col items-center">
                     <span className="items-center text-6xl font-light pb-6 text-center">Titanium Sponsors</span>
                     <div className="items-center font-light items-stretch">

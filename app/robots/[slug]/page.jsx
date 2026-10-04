@@ -41,6 +41,7 @@ export default async function Page({ params }) {
             const eventdata = await event.json();
             const statusdata = await status.json();
             const awardsdata = await awards.json();
+
             if (awardsdata.length === 0) {
                 awardsdata.push({name: "None"});
             }
@@ -64,7 +65,7 @@ export default async function Page({ params }) {
             const data = {
                 name: eventdata.name,
                 dates: `${convertDate(eventdata.start_date)} to ${convertDate(eventdata.end_date)}`,
-                status: `Team 1160 was Rank ${statusdata.qual.ranking.rank} with a record of ${statusdata.qual.ranking.record.wins+(statusdata.playoff?.record.wins || 0)}-${statusdata.qual.ranking.record.losses+statusdata.playoff?.record.losses || 0}-${statusdata.qual.ranking.record.ties+statusdata.playoff?.record.ties || 0}`,
+                status: `Team 1160 was Rank ${statusdata.qual.ranking.rank} with a record of ${statusdata.qual.ranking.record.wins+(statusdata.playoff?.record.wins || 0)}-${statusdata.qual.ranking.record.losses+(statusdata.playoff?.record.losses || 0)}-${statusdata.qual.ranking.record.ties+(statusdata.playoff?.record.ties || 0)}`,
                 awards: awardsdata.map(award => award.name)
             }
             return data;
@@ -117,7 +118,14 @@ export default async function Page({ params }) {
                                         <span className="text-2xl font-medium pb-1">{comp.dates}</span>
                                         <span>{comp.status}</span>
                                         <span className="text-2xl font-normal">Awards</span>
-                                        <span>{comp.awards.join('<br />')}</span>
+                                        <span>
+                                            {comp.awards.map((award, index) => (
+                                                <span key={index}>
+                                                {award}
+                                                {index < comp.awards.length - 1 && <br />}
+                                                </span>
+                                            ))}
+                                        </span>
                                     </span>
                                 )
                             })

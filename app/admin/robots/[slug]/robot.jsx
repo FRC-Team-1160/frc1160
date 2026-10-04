@@ -123,7 +123,14 @@ export default function Robot({ robot, editRobot, addComp, deleteComp, reloadCom
                                         <span className="text-2xl font-medium pb-1">{comp.dates}</span>
                                         <span>{comp.status}</span>
                                         <span className="text-2xl font-normal">Awards</span>
-                                        <span>{comp.awards.join('<br />')}</span>
+                                        <span>
+                                            {comp.awards.map((award, index) => (
+                                                <span key={index}>
+                                                {award}
+                                                {index < comp.awards.length - 1 && <br />}
+                                                </span>
+                                            ))}
+                                        </span>
                                     </span>
                                 )
                             })
