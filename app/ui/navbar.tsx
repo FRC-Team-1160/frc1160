@@ -71,6 +71,16 @@ export default function NavBar() {
             <button onClick={() => signOut({ redirectTo: "/" })} className = {clsx(`text-xl flex items-center justify-center align-middle bg-clear text-black`, {'hidden':!session})}><p className={"transition border-transparent hover:border-blue-500 border-4 px-2 py-1.5 hover:cursor-pointer"}>
                 Logout
             </p></button>
+            <span className="text-xl flex flex-row flex-1 items-center justify-end align-middle bg-clear text-black m-3">
+                <div className="relative w-24 h-full">
+                    <Image
+                        src="/homepage/FIRST.svg"
+                        fill
+                        alt="FIRST Logo"
+                        className="object-scale-down"
+                    />
+                </div>
+            </span>
         </span>
 
         <div className="md:hidden w-11 h-11">

@@ -99,7 +99,7 @@ export default function UploadS3({ maxSize = 5*1024*1024, allowedTypes = ['image
 
   return (
     <div className="p-4 py-10 w-full flex flex-col space-y-5 justify-center items-center bg-white">
-        <div className="flex flex-row space-x-5">
+        <div className="flex flex-row flex-wrap justify-center gap-5">
           <input
             type="file"
             onChange={handleFileChange}

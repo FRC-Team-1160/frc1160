@@ -6,6 +6,7 @@ import Link from 'next/link';
 export default function Navbar2() {
   const pathname = usePathname();
   const links = [
+      {"name":"Scouting","href":"/admin/scouting"},
       {"name":"Photos","href":"/admin/photos"},
       {"name":"Sponsors","href":"/admin/sponsors"},
       {"name":"Resources","href":"/admin/resources"},

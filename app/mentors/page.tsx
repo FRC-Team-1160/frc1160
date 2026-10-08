@@ -10,10 +10,13 @@ export default async function Page() {
         <div id="cards" className="relative text-black w-full flex flex-1 flex-col opacity-85 bg-white">
             <div className="py-19 px-10 md:px-45 w-full">
                 <div className="flex flex-row justify-center flex-wrap">
-                    <div className="flex flex-col items-center space-y-5">
+                    <div className="flex flex-col items-center justify-center space-y-5 w-full">
                         <h1 className="text-6xl font-light flex flex-col space-y-1">
                             Our Mentors
                         </h1>
+                        <h3 className="w-full md:w-1/2 text-2xl font-light flex flex-col space-y-1 text-center">
+                            placeholder text
+                        </h3>
                     </div>
                 </div>
             </div>

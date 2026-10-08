@@ -74,14 +74,14 @@ export default function RootLayout({
                         </Link>
                     </div>
                     <div className="flex flex-col justify-center items-center">
-                        <Link href="https://maps.app.goo.gl/4nZ67bJcaSAxxznT6" className="text-black font-normal text-gray-500 underline">
+                        <Link target="_blank" rel="noopener noreferrer" href="https://maps.app.goo.gl/4nZ67bJcaSAxxznT6" className="text-black font-normal text-gray-500 underline">
                             2701 Huntington Dr, San Marino, CA 91108
                         </Link>
-                        <Link href="https://maps.app.goo.gl/4nZ67bJcaSAxxznT6" className="text-black font-normal text-gray-500 underline hidden">
+                        <Link target="_blank" rel="noopener noreferrer" href="https://futureformlinkhere.com" className="text-black font-normal text-gray-500 underline hidden">
                             Notice a Problem?
                         </Link>
                         <span className="text-black font-normal text-gray-500">
-                            © {currentYear} Titanium Robotics. Licensed under the <Link href="https://opensource.org/licenses/MIT" className="text-blue-500 hover:underline">MIT License</Link>
+                            © {currentYear} Titanium Robotics. Licensed under the <Link target="_blank" rel="noopener noreferrer" href="https://opensource.org/licenses/MIT" className="text-blue-500 hover:underline">MIT License</Link>
                         </span>
                     </div>
                 </footer>
