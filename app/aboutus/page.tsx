@@ -53,8 +53,8 @@ export default async function Page() {
                             Our Team
                         </span>
                         <div className="flex flex-col text-center justify-center space-y-1">
-                            <span className="text-4xl font-light px-8">
-                                Feelings are important, but it's the Physics that matters.
+                            <span className="text-4xl font-light px-8 italic">
+                                "Feelings are important, but it's the Physics that matters."
                             </span>
                             <span className="text-2xl font-normal">- Team Motto</span>
                         </div>

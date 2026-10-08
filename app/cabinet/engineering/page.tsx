@@ -18,9 +18,6 @@ export default async function Page() {
                         <h1 className="text-6xl font-light flex flex-col space-y-1">
                             Engineering Cabinet
                         </h1>
-                        <h3 className="w-full md:w-1/2 text-2xl font-light flex flex-col space-y-1 text-center">
-                            placeholder text
-                        </h3>
                     </div>
                 </div>
             </div>

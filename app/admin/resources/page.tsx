@@ -53,6 +53,9 @@ export default async function Page() {
                     <span className="text-6xl font-light flex flex-col space-y-1">
                         Resources
                     </span>
+                    <span className="text-xl">
+                      For /resources, not used anymore, will be repurposed later.
+                    </span>
                 </div>
             </div>
         </div>
