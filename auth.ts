@@ -31,7 +31,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth(() => {
             const email = profile?.email || user?.email;
 
             if (!email) {
-                return false; // 🚫 stop sign-in if no email
+                return false; // 🚫 stop sign-in if no email (vibe coded asl)
             }
             
             const userbong = await getUser(email)
@@ -39,14 +39,20 @@ export const { handlers, auth, signIn, signOut } = NextAuth(() => {
             console.log(userbong)
             console.log(invite)
             if (userbong || invite) {
-                
                 return true
             } else { return false }
         },
         session({ session, user }) {
             session.user.role = user.role; // Add role to session
             return session;
-        }   
+        },
+        async redirect({ url, baseUrl }) {
+            // Allows relative origin redirects
+            if (url.startsWith("/")) return `${baseUrl}${url}`
+            // Allows callback URLs on the same origin
+            else if (new URL(url).origin === baseUrl) return url
+            return baseUrl
+        }
     },
     pages: {
         error: "/error",
