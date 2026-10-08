@@ -255,6 +255,9 @@ export default async function Page() {
                     <span className="text-6xl font-light flex flex-col space-y-1">
                         Scouting
                     </span>
+                    <span className="text-xl">
+                      work in progress
+                    </span>
                 </div>
             </div>
         </div>

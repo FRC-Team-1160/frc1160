@@ -34,10 +34,10 @@ export default async function Page() {
                         <Image src={yippee} width={1000} height={665} alt="yippe" />
                     </span>
                     <div className="md:basis-1/2 md:pl-7 pt-4 md:pt-0 text-xl font-light">
-                        Titanium Robotics is an FRC team with roughly 50 members, mostly from San Marino High School in San Marino, CA, although some members are from surrounding schools and areas such as South Pasadena and Arcadia.
+                        Titanium Robotics is a First Robotics Competition team with roughly 50 members, mostly from San Marino High School in San Marino, CA, although some members are from surrounding schools and areas such as South Pasadena and Arcadia.
                         <br />
                         <span className="relative top-2">
-                            Team 1160 provides a place in the normal school environment for students to learn how to apply their skills in in Science, Technology, Engineering, and Mathematics. We're a group of students and mentors whose main goal is to provide the world with the next generation of STEM leaders.
+                            Team 1160 provides a place outside the normal school environment for students to learn how to apply their skills in in Science, Technology, Engineering, and Mathematics. We're a group of students and mentors whose main goal is to provide the world with the next generation of STEM leaders.
                         </span>
                         <div className="flex justify-center mt-10 opacity-100">
                             <Link href="/aboutus" className="p-3 border-5 border-blue-500 transition-colors ease-in-out duration-300 font-bold text-3xl text-blue-500 hover:border-blue-400 hover:text-blue-400">About Us</Link>
