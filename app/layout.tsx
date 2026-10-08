@@ -20,7 +20,7 @@ export const leagueSpartan = League_Spartan({
 
 export const metadata: Metadata = {
     title: "Titanium Robotics | 1160",
-    description: "The Un-Official Titanium Robotics FRC Website",
+    description: "The Official Titanium Robotics FRC Website",
     keywords: ["FRC", "Titanium Robotics", "Team 1160","San Marino", "Robotics",],
     creator: "William Chen",
     referrer: 'origin-when-cross-origin',
